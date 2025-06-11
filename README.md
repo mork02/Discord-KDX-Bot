@@ -7,13 +7,15 @@ Maybe in the future, others might find it useful for their own servers as well!
 
 ## ✅ Already Implemented
 - The bot can come online lmao
+- ActiveDevBadge for Discord badge (for the admin)
+- Ping, to see if bot is working
+- dice with length parameter (rolls a dice)
 
 ---
 
 ## 🔧 Currently in Development
 - Welcome message for new members
 - Simple role management
-- Dice rolling function
 
 ---
 
