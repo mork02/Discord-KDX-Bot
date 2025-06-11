@@ -1,6 +1,8 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using discord_kdx_bot.config;
+using discord_kdx_bot.commands;
+using DSharpPlus.SlashCommands;
 
 namespace discord_kdx_bot
 {
@@ -26,6 +28,20 @@ namespace discord_kdx_bot
             Client = new DiscordClient(discordConfig);
 
             Client.Ready += Client_Ready;
+
+            var commandsConfig = new CommandsNextConfiguration()
+            {
+                StringPrefixes = new string[] { jsonReader.prefix },
+                EnableMentionPrefix = true,
+                EnableDms = true,
+                EnableDefaultHelp = false
+            };
+
+            Commands = Client.UseCommandsNext(commandsConfig);
+            Commands.RegisterCommands<prefixCommands>();
+
+            var slash = Client.UseSlashCommands();
+            slash.RegisterCommands<discord_kdx_bot.commands.utilityCommands>();
 
             await Client.ConnectAsync();
             await Task.Delay(-1);
