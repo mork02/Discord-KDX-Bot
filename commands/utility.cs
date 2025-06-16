@@ -33,62 +33,42 @@ namespace discord_kdx_bot.commands
                 new DiscordInteractionResponseBuilder().AddEmbed(embed));
         }
 
-        [SlashCommand("addreactionmessage", "Adds a reaction message")]
+        [SlashCommand("addroleMessage", "Adds a message to get a role")]
         public async Task ReactionMessage(
             InteractionContext ctx,
-            [Option("message_link", "Link to the target message")] string message_link, 
-            [Option("role", "select the roles as a list")] string? Role = null)
+            [Option("title", "adds a title to the embed")] string title,
+            [Option("discription", "adds a description to the embed")] string description,
+            [Option("role_id", "adds a role to the embed")] string role_id
+            )
         {
             try
             {
-                var botMember = await ctx.Guild.GetMemberAsync(ctx.Client.CurrentUser.Id);
-                var botRole = botMember.Roles.OrderByDescending(r => r.Position).FirstOrDefault();
-
-                var roles = ctx.Guild.Roles.Values
-                    .Where(role =>
-                    !role.IsManaged &&
-                    role.Id != 1297834549203701852 && // @everyone -> 1297834549203701852
-                    role.Position < botRole.Position)
-                    .OrderByDescending(r => r.Position)
-                    .ToList();
-
-                if (!roles.Any())
+                var embed = new DiscordEmbedBuilder
                 {
-                    await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource,
-                        new DiscordInteractionResponseBuilder().WithContent("Keine gültigen Rollen gefunden."));
-                    return;
-                }
-
-                var embed = new DiscordEmbedBuilder()
-                {
-                    Title = "Select Role",
-                    Description = "Select the Role you want to give, when someone reacts to the message",
+                    Title = title.ToString(),
+                    Description = description.ToString(),
                     Color = DiscordColor.Red
                 };
 
-                var role_arr = roles
-                    .Take(10)
-                    .Select(r => new DiscordSelectComponentOption(r.Name, r.Id.ToString()))
-                    .ToList();
-
-                var dropDownMenu = new DiscordSelectComponent(
-                    customId: "role_drop_down",
-                    placeholder: "Select the role",
-                    options: role_arr,
-                    minOptions: 1,
-                    maxOptions: 1
-                );
+                var button = new DiscordButtonComponent(
+                    DSharpPlus.ButtonStyle.Primary,
+                    $"give_role_{role_id}",
+                    "Collect Role"
+                    );
 
                 await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource,
-                new DiscordInteractionResponseBuilder()
-                .AddEmbed(embed)
-                .AddComponents(dropDownMenu));
+                    new DiscordInteractionResponseBuilder()
+                    .AddEmbed(embed)
+                    .AddComponents(button)
+                    );
+                    
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Fehler in /addreactionmessage: " + ex.Message);
+                Console.WriteLine(" Error in /addreactionmessage: " + ex.Message);
                 await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource,
-                    new DiscordInteractionResponseBuilder().WithContent("Es ist ein Fehler aufgetreten."));
+                    new DiscordInteractionResponseBuilder().WithContent("Error."));
             }
             
         }
