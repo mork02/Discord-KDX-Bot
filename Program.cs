@@ -2,8 +2,8 @@
 using discord_kdx_bot.config;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using discord_kdx_bot.handlers;
 
 namespace discord_kdx_bot
 {
@@ -44,23 +44,11 @@ namespace discord_kdx_bot
             var slash = Client.UseSlashCommands();
             slash.RegisterCommands<discord_kdx_bot.commands.utilityCommands>();
 
-            Client.ComponentInteractionCreated += on_Interaction;
+            Client.ComponentInteractionCreated += interactionHandler.HandleInteraction;
 
             await Client.ConnectAsync();
             await Task.Delay(-1);
 
-        }
-
-        private async static Task on_Interaction(DiscordClient sender, DSharpPlus.EventArgs.ComponentInteractionCreateEventArgs args)
-        {
-            if (args.Id == "role_drop_down")
-            {
-                var selected_role = args.Values[0];
-                
-                await args.Interaction.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource,
-                    new DiscordInteractionResponseBuilder()
-                    .WithContent($"Hello {args.User.Mention}, you selected: {selected_role}"));
-            }
         }
 
         private static Task Client_Ready(DiscordClient sender, DSharpPlus.EventArgs.ReadyEventArgs args)
