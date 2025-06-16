@@ -15,13 +15,13 @@ namespace discord_kdx_bot
 
         static async Task Main(string[] args)
         {
-            var jsonReader = new JSONReader();
-            await jsonReader.ReadJSON();
+            var conficManager = new ConfigManager();
+            await conficManager.Load();
 
             var discordConfig = new DiscordConfiguration()
             {
                 Intents = DiscordIntents.All,
-                Token = jsonReader.token,
+                Token = conficManager.token,
                 TokenType = TokenType.Bot,
                 AutoReconnect = true
             };
@@ -32,7 +32,7 @@ namespace discord_kdx_bot
 
             var commandsConfig = new CommandsNextConfiguration()
             {
-                StringPrefixes = new string[] { jsonReader.prefix },
+                StringPrefixes = new string[] { conficManager.prefix },
                 EnableMentionPrefix = true,
                 EnableDms = true,
                 EnableDefaultHelp = false
