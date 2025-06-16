@@ -10,12 +10,14 @@ Maybe in the future, others might find it useful for their own servers as well!
 - ActiveDevBadge for Discord badge (for the admin)
 - Ping, to see if bot is working
 - dice with length parameter (rolls a dice)
+- Simple role manager
 
 ---
 
 ## 🔧 Currently in Development
 - Welcome message for new members
-- Simple role management
+- JSON-based structure for easier usage and accessibility
+- Refactored for cleaner and more readable code
 
 ---
 
