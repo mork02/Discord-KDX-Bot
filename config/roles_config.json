@@ -1,0 +1,18 @@
+{
+  "temp_role": {
+    "id": "",
+    "name": "",
+    "emoji": "",
+    "description": "",
+    "position": "",
+    "is_default":  ""
+  },
+  "temp2_role": {
+    "id": "",
+    "name": "",
+    "emoji": "",
+    "description": "",
+    "position": "",
+    "is_default": ""
+  }
+}
